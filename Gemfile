@@ -23,6 +23,8 @@ group :development, :test do
   gem 'awesome_print', '1.6.1'
   gem 'guard-livereload',  '2.4.0'
   gem 'better_errors', '2.1.1'
+  
+  gem 'rspec-rails',         '3.3.2'
 end
 
 group :test do
@@ -31,7 +33,6 @@ group :test do
   gem 'guard-minitest',     '2.3.1'
   
   gem 'rspec',               '3.3.0'
-  gem 'rspec-rails',         '3.3.2'
   gem 'factory_girl_rails',  '4.5.0'
   gem 'shoulda-matchers',    '2.8.0'
 end
