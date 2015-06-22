@@ -85,13 +85,14 @@ RSpec.describe QuestionsController, type: :controller do
       let(:my_question) { create(:question) }
       let!(:new_attributes) {attributes_for(:question)}
       
+      before { patch :update, id: my_question, question: new_attributes }
+      
       it 'assigns @question variable' do
-        patch :update, id: my_question, question: new_attributes
+        
         expect(assigns(:question)).to eq my_question
       end
       
       it 'saves updated question attributes' do
-        patch :update, id: my_question, question: new_attributes
         my_question.reload
         expect(new_attributes.size).to eq 2
         expect(my_question.title).to eq new_attributes[:title]
@@ -99,11 +100,42 @@ RSpec.describe QuestionsController, type: :controller do
       end
       
      it 'redirects to updated question' do
-       patch :update, id: my_question, question: new_attributes
        expect(response).to redirect_to my_question
      end
+    end
+    
+    context 'question with invalid attributes' do
+      let(:old_attributes) { attributes_for(:question) }
+      let(:my_question) { create(:question, old_attributes) }
+      let!(:bad_attributes) {attributes_for(:invalid_question)}
       
+      before { patch :update, id: my_question, question: bad_attributes }
+
+      it 'does not update question attributes' do
+        my_question.reload
+        expect(old_attributes.size).to eq 2
+        expect(my_question.title).to eq old_attributes[:title]
+        expect(my_question.content).to eq old_attributes[:content]
+      end
+      
+      it 'renders edit view' do
+        expect(response).to render_template :edit
+      end
     end
   end
-
+  
+  describe 'DELETE #destroy' do
+    let!(:my_question) { create(:question) }
+    before { my_question }
+    
+    it 'deletes question' do
+      debugger
+      expect { delete :destroy, id: my_question }.to change(Question, :count).by(-1)
+    end
+    
+    it 'redirects to index' do
+      delete :destroy, id: my_question
+      expect(response).to redirect_to questions_path
+    end
+  end
 end

@@ -25,14 +25,16 @@ class QuestionsController < ApplicationController
   end
   
   def update
-    #debugger
-    @question.update(question_params)
-    #debugger
-    redirect_to @question
+    if @question.update(question_params)
+      redirect_to @question
+    else
+      render :edit
+    end
   end
   
   def destroy
-    
+    @question.destroy
+    redirect_to questions_path
   end
   
   private
