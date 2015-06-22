@@ -129,7 +129,6 @@ RSpec.describe QuestionsController, type: :controller do
     before { my_question }
     
     it 'deletes question' do
-      debugger
       expect { delete :destroy, id: my_question }.to change(Question, :count).by(-1)
     end
     
