@@ -1,2 +1,14 @@
-h1 Questions#show
-p Find me in app/views/questions/show.html.slim
+h1 Viewing question
+
+p
+=@question.title
+p
+=@question.content
+p
+=@question.user.name
+- @question.answers.each do |answer|
+	p
+	=answer.content
+
+/= link_to 'New Answer', new_answer_path
+
