@@ -64,9 +64,9 @@ RSpec.describe AnswersController, type: :controller do
                                question_id: question }.to change(question.answers, :count).by(1)
       end
       
-      it 'redirects to the answer just created' do
+      it 'redirects to parent question' do
         post :create, answer: attributes_for(:answer), question_id: question
-        expect(response).to redirect_to [assigns(:answer).question, assigns(:answer)]
+        expect(response).to redirect_to [assigns(:answer).question]
       end
       
     end 
@@ -101,14 +101,14 @@ RSpec.describe AnswersController, type: :controller do
         expect(my_answer.content).to eq new_attributes[:content]
       end
       
-      it 'redirects to updated question' do
-        expect(response).to redirect_to [my_answer.question, my_answer]
+      it 'redirects to parent question' do
+        expect(response).to redirect_to my_answer.question
       end
     end
     
     context 'question with invalid attributes' do
       let(:old_attributes) { attributes_for(:answer) }
-      #TODO - replace with proper my_anwer creation
+      #TODO - replace with proper my_answer creation
       let(:my_answer) { create(:answer, content: old_attributes[:content], question: question) }
       let!(:bad_attributes) {attributes_for(:invalid_answer)}
       
