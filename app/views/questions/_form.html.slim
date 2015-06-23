@@ -1,8 +1,5 @@
 = form_for @question do |f|
   .field
-    = f.label :user_id, "Username"
-    = f.select :user_id, options_for_select(User.pluck(:name, :id)), { include_blank: false }
-  .field
     = f.label :title
     = f.text_area :title
   .field

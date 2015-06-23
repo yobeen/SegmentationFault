@@ -5,15 +5,11 @@ p
 p
 =@question.content
 p
-=@question.user.name
-p
 - @question.answers.each do |answer|
 	table
 		tbody
 		tr
 			td = answer.content
-		tr
-			td = answer.user.name
 		tr
 			td = answer.created_at
 		tr

@@ -8,6 +8,4 @@ RSpec.describe Answer, type: :model do
   it { should belong_to(:question).order(created_at: :desc) } 
   
   it { have_db_index(:created_at) }
-  
-  it { should belong_to(:user) } 
 end

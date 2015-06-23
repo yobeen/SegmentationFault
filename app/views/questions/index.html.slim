@@ -4,7 +4,6 @@ table
   thead
     tr
       th Title
-      th Asked by
       th Created at
       th
       th
@@ -14,7 +13,6 @@ table
     - @questions.each do |question|
       tr
       	td = question.title
-      	td = question.user.name
       	td = question.created_at
         td = link_to 'Show', question
         td = link_to 'Edit', edit_question_path(question)
