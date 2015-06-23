@@ -6,9 +6,20 @@ p
 =@question.content
 p
 =@question.user.name
+p
 - @question.answers.each do |answer|
-	p
-	=answer.content
-
-/= link_to 'New Answer', new_answer_path
-
+	table
+		tbody
+		tr
+			td = answer.content
+		tr
+			td = answer.user.name
+		tr
+			td = answer.created_at
+		tr
+			td = link_to 'Edit', edit_question_answer_path(@question, answer)
+		tr
+			td = link_to 'Delete', [@question, answer], data: {confirm: 'Are you sure?'}, method: :delete
+		p
+p
+= link_to 'New Answer', new_question_answer_path(@question)

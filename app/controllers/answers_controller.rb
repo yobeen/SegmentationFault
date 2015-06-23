@@ -17,7 +17,7 @@ class AnswersController < ApplicationController
   end
   
   def create
-    @answer = @question.answers.build(answer_params)
+    @answer = @question.answers.new(answer_params)
     if @answer.save
       redirect_to [@answer.question, @answer]
     else 
@@ -50,6 +50,6 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:content)
+    params.require(:answer).permit(:content, :user_id)
   end
 end

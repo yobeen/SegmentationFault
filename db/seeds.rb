@@ -27,9 +27,9 @@ Question.create(title: 'How can I rename a database column in a Rails migration?
   How can I use a migration to rename this column?', user: User.second)
 
 Answer.create(content: 'I have only \"multiple\" in select options. I think it\'s something wrong with my form.', 
-                                                     question: Question.first)
+                                                     question: Question.first, user: User.all[3])
                                                      
                                                      
 Answer.create(content: 'This will also automatically have the model\'s selected categories populate the\
                                                        select field as highlighted when on an edit form.', 
-                                                     question: Question.first)
+                                                     question: Question.first, user: User.all[4] )
