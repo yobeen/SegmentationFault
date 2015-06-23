@@ -12,10 +12,6 @@ p
 			td = answer.content
 		tr
 			td = answer.created_at
-		tr
-			td = link_to 'Edit', edit_question_answer_path(@question, answer)
-		tr
-			td = link_to 'Delete', [@question, answer], data: {confirm: 'Are you sure?'}, method: :delete
 		p
 p
 = link_to 'New Answer', new_question_answer_path(@question)

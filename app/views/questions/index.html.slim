@@ -15,9 +15,6 @@ table
       	td = question.title
       	td = question.created_at
         td = link_to 'Show', question
-        td = link_to 'Edit', edit_question_path(question)
-        td = link_to 'Delete', question, data: {confirm: 'Are you sure?'}, method: :delete
-
 br
 
 = link_to 'New Question', new_question_path
