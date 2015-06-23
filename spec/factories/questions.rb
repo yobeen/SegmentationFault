@@ -1,9 +1,11 @@
-require_relative 'factory_utils.rb'
-
 FactoryGirl.define do
   factory :question do
-    title { "MyString_" + rnd_string }
-    content { "MyText_" + rnd_string }
+    sequence :title do |n|
+      "MyString_#{n}"
+    end
+    sequence :content do |n|
+      "MyText_#{n}"
+    end
   end
 
   factory :invalid_question, class: "Question" do

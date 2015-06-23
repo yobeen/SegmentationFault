@@ -1,13 +1,11 @@
-require_relative 'factory_utils.rb'
-
 FactoryGirl.define do
   factory :answer do
-    content { "MyText_" + rnd_string } 
+    sequence :content do |n|
+      "MyText_#{n}"
+    end
   end
   
   factory :invalid_answer, class: "Answer" do
     content ""
   end
-
-
 end
