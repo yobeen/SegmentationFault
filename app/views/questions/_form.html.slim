@@ -1,0 +1,8 @@
+= form_for @question do |f|
+  .field
+    = f.label :title
+    = f.text_area :title
+  .field
+    = f.label :content
+    = f.text_area :content, :cols => "50", :rows => "10"
+  .actions = f.submit

@@ -1,0 +1,20 @@
+h1 Listing questions
+
+table
+  thead
+    tr
+      th Title
+      th Created at
+      th
+      th
+      th
+
+  tbody
+    - @questions.each do |question|
+      tr
+      	td = question.title
+      	td = question.created_at
+        td = link_to 'Show', question
+br
+
+= link_to 'New Question', new_question_path
