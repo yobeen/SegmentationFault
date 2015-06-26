@@ -6,12 +6,12 @@ p
 =@question.content
 p
 - @question.answers.each do |answer|
-	table
-		tbody
-		tr
-			td = answer.content
-		tr
-			td = answer.created_at
-		p
+  table
+    tbody
+    tr
+      td = answer.content
+    tr
+      td = answer.created_at
+    p
 p
 = link_to 'New Answer', new_question_answer_path(@question)
