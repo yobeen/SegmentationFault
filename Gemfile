@@ -12,6 +12,7 @@ gem 'turbolinks',           '2.3.0'
 gem 'jbuilder',             '2.2.3'
 gem 'sdoc',                 '0.4.0', group: :doc
 gem 'slim-rails',            '3.0.1'
+gem 'devise',                '3.5.1'
 
 group :development, :test do
   gem 'sqlite3',     '1.3.9'
@@ -35,6 +36,8 @@ group :test do
   gem 'rspec',               '3.3.0'
   gem 'factory_girl_rails',  '4.5.0'
   gem 'shoulda-matchers',    '2.8.0'
+  gem 'capybara',            '2.4.4'
+  gem 'launchy',             '2.4.3'
 end
 
 group :production do

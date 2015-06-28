@@ -1,21 +1,8 @@
 Rails.application.routes.draw do
+  devise_for :users
+  root to: "questions#index"
 
-  #get 'answers/index'
-
-  #get 'answers/show'
-
- # get 'answers/new'
-#
-#  get 'answers/edit'
-
-root to: "questions#index"
-
-resources :questions do
- resources :answers
-end
-
-
-
-
-
+  resources :questions do
+   resources :answers
+  end
 end
