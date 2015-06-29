@@ -14,4 +14,9 @@ FactoryGirl.define do
     password_confirmation '12345678'
   end
 
+  trait :with_questions do
+    after(:create) do |user|
+      user.questions.create(attributes_for(:question))
+    end
+  end
 end

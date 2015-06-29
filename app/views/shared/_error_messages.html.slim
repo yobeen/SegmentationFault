@@ -1,0 +1,5 @@
+- if object.errors.any?
+  .error-messages
+    div #{ pluralize(object.errors.count, 'error') } needs to be fixed before saving.
+    - for message in object.errors.full_messages
+      .error-message = message

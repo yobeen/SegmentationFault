@@ -1,9 +1,9 @@
 h1 Viewing question
 
 p
-=@question.title
+= @question.title
 p
-=@question.content
+= @question.content
 p
 - @question.answers.each do |answer|
   table
@@ -12,6 +12,18 @@ p
       td = answer.content
     tr
       td = answer.created_at
-    p
+      td
+        - if user_signed_in? && current_user.id == answer.user.id
+          = link_to 'Delete answer', [answer.question, answer], method: :delete
 p
-= link_to 'New Answer', new_question_answer_path(@question)
+- if user_signed_in? && current_user.id == @question.user.id
+  = link_to 'Delete this question', @question, method: :delete
+p
+- if user_signed_in?
+  p
+  = form_for [@question, @answer] do |f|
+    = render 'shared/error_messages', object: f.object
+    .field
+      = f.label :content
+      = f.text_area :content, :cols => "50", :rows => "10"
+    .actions = f.submit

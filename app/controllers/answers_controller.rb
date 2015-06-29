@@ -1,42 +1,24 @@
 class AnswersController < ApplicationController
-  before_action :set_answer, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
+  before_action :set_answer, only: [:destroy]
   before_action :set_question
 
-  def index
-    @answers = @question.answers
-  end
-
-  def show
-  end
-
-  def new
-    @answer = @question.answers.build
-  end
-
-  def edit
-  end
-  
   def create
     @answer = @question.answers.new(answer_params)
-    if @answer.save
-      redirect_to @answer.question
-    else 
-      render :new
+    @answer.user = current_user
+    if !@answer.save
+      flash[:error] = "Could not create answer"
     end
-  end
-  
-  def update
-    if @answer.update(answer_params)
-      redirect_to @answer.question  
-    else
-      render :edit
-    end
-    
+    redirect_to @question
   end
   
   def destroy
-    @answer.destroy
-    redirect_to @question
+    if current_user.id == @answer.user.id
+      @answer.destroy
+      redirect_to @answer.question
+    else
+      redirect_to @question
+    end
   end
   
   private

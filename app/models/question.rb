@@ -1,5 +1,6 @@
 class Question < ActiveRecord::Base
   has_many :answers, -> { order(created_at: :desc) }, dependent: :destroy
+  belongs_to :user, -> { order(created_at: :desc) }
 
   validates :title, presence: true, length: { maximum: 250 }
   validates :content, presence: true, length: { maximum: 15000 } 
