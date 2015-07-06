@@ -9,5 +9,5 @@ RSpec.describe Question, type: :model do
 
   it { should have_many(:answers).order(created_at: :desc).dependent(:destroy) }
 
-  it { should belong_to(:user).order(created_at: :desc) }
+  it { should belong_to(:user) }
 end
