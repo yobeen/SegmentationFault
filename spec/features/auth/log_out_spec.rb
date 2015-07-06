@@ -6,8 +6,8 @@ feature 'User logging out', %q{
 	is able to log ot
  } do
 
-	scenario 'User logs out' do
-		user = create(:user)
+  scenario 'User logs out' do
+    user = create(:user)
 
 		sign_in_manual(user)
 

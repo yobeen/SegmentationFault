@@ -8,7 +8,7 @@ feature 'Creating question', %q{
 
 	given(:user) { create(:user) }
 
-	scenario 'Authenticated user creates a question' do
+  scenario 'Authenticated user creates a question' do
 		sign_in_manual(user)
 
 		visit root_path
