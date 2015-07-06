@@ -7,7 +7,7 @@ p
 p
   .answers
     == render @question.answers
-pz
+p
 - if user_signed_in? && current_user.id == @question.user.id
   = link_to 'Delete this question', @question, method: :delete
 p

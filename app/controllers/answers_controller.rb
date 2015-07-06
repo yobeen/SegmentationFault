@@ -7,14 +7,8 @@ class AnswersController < ApplicationController
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
 
-    respond_to do |format|
-      if @answer.save
-        format.html { redirect_to @question }
-      else
-        flash[:error] = "Could not create answer"
-        format.html { render 'questions/show' }
-      end
-      format.js {}
+    if !@answer.save
+      flash[:error] = "Could not create answer"
     end
   end
   
