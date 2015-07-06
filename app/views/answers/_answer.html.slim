@@ -1,0 +1,9 @@
+table
+  tbody
+  tr
+    td = answer.content
+  tr
+    td = answer.created_at
+    td
+      - if user_signed_in? && current_user.id == answer.user.id
+        = link_to 'Delete answer', [answer.question, answer], method: :delete

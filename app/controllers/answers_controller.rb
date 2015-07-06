@@ -6,10 +6,16 @@ class AnswersController < ApplicationController
   def create
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
-    if !@answer.save
-      flash[:error] = "Could not create answer"
+
+    respond_to do |format|
+      if @answer.save
+        format.html { redirect_to @question }
+      else
+        flash[:error] = "Could not create answer"
+        format.html { render 'questions/show' }
+      end
+      format.js {}
     end
-    redirect_to @question
   end
   
   def destroy

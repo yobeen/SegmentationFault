@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.2.0'
+ruby '2.2.1'
 gem 'rails',                '4.2.1'
 gem 'bcrypt',               '3.1.7'
 gem 'bootstrap-sass',       '3.2.0.0'
@@ -26,6 +26,8 @@ group :development, :test do
   gem 'better_errors', '2.1.1'
   
   gem 'rspec-rails',         '3.3.2'
+	gem 'selenium-webdriver'
+  gem 'database_cleaner'
 end
 
 group :test do

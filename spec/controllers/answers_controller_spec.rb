@@ -16,7 +16,7 @@ RSpec.describe AnswersController, type: :controller do
         expect{ post :create, answer: attributes_for(:answer),
                      question_id: question }.to change(user.answers, :count).by(1)
       end
-      
+
       it 'redirects to question' do
         post :create, answer: attributes_for(:answer), question_id: question
         expect(response).to redirect_to question_path(question)
@@ -29,11 +29,7 @@ RSpec.describe AnswersController, type: :controller do
         expect { post :create, answer: attributes_for(:invalid_answer), 
                                question_id: question }.to_not change(question.answers, :count)
       end
-      
-      it 'redirects to question' do
-        post :create, answer: attributes_for(:invalid_answer), question_id: question
-        expect(response).to redirect_to question_path(question)
-      end
+
     end
 
     context 'when user is not logged in' do
