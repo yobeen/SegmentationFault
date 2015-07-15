@@ -10,7 +10,6 @@ feature 'Create amswer', %q{
   given!(:someone_else) { create(:user, :with_questions) }
 
   scenario 'Authenticated user creates answer', js: true do
-    #set_speed(:slow)
 	  sign_in_manual(user)
     visit question_path(someone_else.questions.last)
     text = "That's simple: just be yourself!"

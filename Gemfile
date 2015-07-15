@@ -19,15 +19,14 @@ group :development, :test do
   gem 'byebug',      '3.4.0'
   gem 'web-console', '2.0.0.beta3'
   gem 'spring',      '1.1.3'
-
   gem 'hirb',          '0.7.3'
   gem 'awesome_print', '1.6.1'
   gem 'guard-livereload',  '2.4.0'
   gem 'better_errors', '2.1.1'
   
   gem 'rspec-rails',         '3.3.2'
-	gem 'selenium-webdriver'
   gem 'database_cleaner'
+	gem 'capybara-webkit'
 end
 
 group :test do
