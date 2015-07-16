@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Create amswer', %q{
+feature 'Create answer', %q{
   In order to help someone
   user
   is able to create answer to a question

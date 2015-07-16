@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_answer, only: [:destroy]
+  before_action :set_answer, only: [:update, :destroy]
   before_action :set_question
 
   def create
@@ -11,9 +11,13 @@ class AnswersController < ApplicationController
       flash[:error] = "Could not create answer"
     end
   end
+
+  def update
+	  @answer.update(answer_params)
+  end
   
   def destroy
-    if current_user.id == @answer.user.id
+    if current_user.id == @answer.user_id
       @answer.destroy
       redirect_to @answer.question
     else
