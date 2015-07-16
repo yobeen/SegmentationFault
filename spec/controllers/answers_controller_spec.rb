@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
   let(:user) { create(:user) }
+  let(:someone_else) { create(:user) }
   before { sign_in(user) }
 
   describe "POST #create" do
@@ -37,47 +38,42 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
-	describe "PATCH #update" do
-		context 'answer with valid attributes' do
-			let(:my_answer) { create(:answer, question: question ) }
-			let!(:new_attributes) {attributes_for(:answer)}
+  describe "PATCH #update" do
+    context 'answer with valid attributes' do
+      let(:my_answer) { create(:answer, question: question, user: user ) }
+      let!(:new_attributes) {attributes_for(:answer)}
 
-			before { patch :update, id: my_answer, question_id: question, answer: new_attributes, format: :js }
+      before { patch :update, id: my_answer, question_id: question, answer: new_attributes, format: :js }
 
-			it 'assigns @question variable' do
-				expect(assigns(:answer)).to eq my_answer
-			end
+      it 'assigns @question variable' do
+        expect(assigns(:answer)).to eq my_answer
+      end
 
-			it 'assigns @question variable' do
-				expect(assigns(:question)).to eq question
-			end
+      it 'assigns @question variable' do
+        expect(assigns(:question)).to eq question
+      end
 
-			it 'saves updated answer attributes' do
-				my_answer.reload
-				expect(new_attributes.size).to eq 1
-				expect(my_answer.content).to eq new_attributes[:content]
-			end
+      it 'saves updated answer attributes' do
+        my_answer.reload
+        expect(new_attributes.size).to eq 1
+        expect(my_answer.content).to eq new_attributes[:content]
+      end
 
-			it 'render updated answer template' do
-				expect(response).to render_template :update
-			end
-		end
-	end
+      it 'render updated answer template' do
+        expect(response).to render_template :update
+      end
+    end
+  end
 
   describe 'DELETE #destroy' do
     let!(:answer) { question.answers.create(attributes_for(:answer)) }
 
     context 'answer belongs to current user' do
       before { answer.update_attributes(user: user) }
-
       it 'deletes answer' do
-        expect{ delete :destroy, id: answer, question_id: question }.to change(question.answers, :count).by(-1)
+        expect{ delete :destroy, id: answer, question_id: question, format: :js }.to change(question.answers, :count).by(-1)
       end
 
-      it 'redirects to question' do
-        delete :destroy, id: answer, question_id: question
-        expect(response).to redirect_to question
-      end
     end
 
     context 'answer belongs to someone else' do
@@ -85,13 +81,9 @@ RSpec.describe AnswersController, type: :controller do
       before { answer.update_attributes(user: someone_else) }
 
       it 'does not delete answer' do
-        expect{ delete :destroy, id: answer, question_id: question }.to_not change(question.answers, :count)
+        expect{ delete :destroy, id: answer, question_id: question, format: :js }.to_not change(question.answers, :count)
       end
 
-      it 'redirects to question' do
-        delete :destroy, id: answer, question_id: question
-        expect(response).to redirect_to question
-      end
     end
 
     context 'when user is not logged in' do
@@ -101,13 +93,9 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 'does not delete answer' do
-        expect{ delete :destroy, id: answer, question_id: question }.to_not change(question.answers, :count)
+        expect{ delete :destroy, id: answer, question_id: question, format: :js }.to_not change(question.answers, :count)
       end
 
-      it 'redirects to sign in page' do
-        delete :destroy, id: answer, question_id: question
-        expect(response).to redirect_to new_user_session_path
-      end
     end
   end
 end

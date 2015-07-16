@@ -13,15 +13,14 @@ class AnswersController < ApplicationController
   end
 
   def update
-	  @answer.update(answer_params)
+	  if current_user.id == @answer.user_id
+	    @answer.update(answer_params)
+	  end
   end
   
   def destroy
     if current_user.id == @answer.user_id
       @answer.destroy
-      redirect_to @answer.question
-    else
-      redirect_to @question
     end
   end
   
