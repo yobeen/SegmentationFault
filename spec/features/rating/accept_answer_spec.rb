@@ -14,12 +14,29 @@ feature 'Accept answer', %q{
     sign_in_manual(user)
     visit question_path(question)
 
-	  within("#answer_#{answer.id}") do
-		  click_on 'Accept answer'
-		  expect(page).to_not have_link("Accept answer")
-	  end
+    expect(page).to_not have_selector('.accepted')
+
+    within("#answer_#{answer.id}") do
+      click_on 'Accept answer'
+      expect(page).to_not have_link("Accept answer")
+    end
 
     expect(page).to have_selector(".answers > :first-child", text: answer.content)
+	end
+
+  scenario 'Author accepts another answer', js: true do
+    sign_in_manual(user)
+    another_answer = question.answers.create(attributes_for(:answer))
+		another_answer.update(accepted: true)
+    visit question_path(question)
+
+    expect(page).to have_selector('.accepted')
+    within("#answer_#{answer.id}") do
+      click_on 'Accept answer'
+    end
+
+    expect(page).to have_selector(".answers > :first-child", text: answer.content)
+    expect(page).to_not have_selector("#answer_#{another_answer.id}.accepted")
   end
 
   scenario 'Someone else tries to accept answer to user question' do
