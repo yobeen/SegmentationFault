@@ -26,6 +26,7 @@ group :development, :test do
   
   gem 'rspec-rails',         '3.3.2'
   gem 'database_cleaner'
+  #gem 'selenium-webdriver'
 	gem 'capybara-webkit'
 end
 
