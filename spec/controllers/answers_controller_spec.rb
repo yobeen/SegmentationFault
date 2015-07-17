@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
-  let(:user) { create(:user) }
+  let(:user) { create(:user, :with_questions) }
   let(:someone_else) { create(:user) }
   before { sign_in(user) }
 
@@ -63,6 +63,64 @@ RSpec.describe AnswersController, type: :controller do
         expect(response).to render_template :update
       end
     end
+  end
+
+  describe "PATCH #accept" do
+	  let(:question) { user.questions.last }
+	  let(:answers) { create_list(:answer, 3, question: question) }
+	  let(:answer) { answers[0] }
+
+	  before do
+		  sign_in(user)
+	  end
+
+	  context 'question belongs to current user' do
+		  before do
+			  patch :accept, question_id: question.id, id: answer.id, format: :js
+		  end
+
+		  it 'assigns answer variable' do
+			  expect(assigns(:answer)).to eq answer
+		  end
+
+		  it 'assigns question variable' do
+			  expect(assigns(:question)).to eq question
+		  end
+
+		  it 'accepts answer' do
+			  answer.reload
+			  expect(answer.accepted?).to be_truthy
+		  end
+
+		  it 'renders accept template' do
+			  expect(response).to render_template :accept
+		  end
+	  end
+
+	  context 'question belongs to someone else' do
+		  before do
+			  question.update_attributes(user: someone_else)
+			  patch :accept, question_id: question.id, id: answer.id, format: :js
+		  end
+
+		  it 'does not accept answer' do
+			  answer.reload
+			  expect(answer.accepted?).to be_falsey
+		  end
+	  end
+
+	  context 'user not logged in' do
+		  before do
+			  sign_out(user)
+			  patch :accept, question_id: question.id, id: answer.id, format: :js
+		  end
+
+		  it 'does not accept answer' do
+			  answer.reload
+			  expect(answer.accepted?).to be_falsey
+		  end
+	  end
+
   end
 
   describe 'DELETE #destroy' do

@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_answer, only: [:update, :destroy]
+  before_action :set_answer, only: [:update, :destroy, :accept]
   before_action :set_question
 
   def create
@@ -22,6 +22,14 @@ class AnswersController < ApplicationController
     if current_user.id == @answer.user_id
       @answer.destroy
     end
+  end
+
+  def accept
+	  if current_user.id == @question.user_id
+		  @answer.accept
+	  else
+		  render nothing: true
+	  end
   end
   
   private
