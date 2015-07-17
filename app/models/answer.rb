@@ -5,7 +5,9 @@ class Answer < ActiveRecord::Base
   validates :content, presence: true, length: { maximum: 15000 }
 
   def accept
-	  question.answers.update_all(accepted: false)
-	  update(accepted: true)
+		Answer.transaction do
+		  question.answers.update_all(accepted: false)
+		  update!(accepted: true)
+		end
   end
 end

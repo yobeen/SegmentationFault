@@ -1,8 +1,8 @@
 var answer;
 answer = $('#answer_' + <%= @answer.id %>);
 answer.remove();
-$('.answers').prepend(answer);
 $('.accepted').removeClass('accepted');
+$('.answers').prepend(answer);
 answer.addClass('accepted');
 $('.accept-btn').show();
 answer.find('.accept-btn').hide();

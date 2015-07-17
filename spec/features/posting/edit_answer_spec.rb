@@ -9,21 +9,22 @@ feature 'Edit answer', %q{
   given!(:user) { create(:user, :with_questions) }
   given!(:someone_else) { create(:user, :with_questions) }
   given(:question) { user.questions.last}
-  given!(:answer) { create(:answer, question: question) }
+  given!(:answer) { create(:answer, question: question)}#, user: user) }
   scenario 'User edits his own answer', js: true do
+    #debugger
     sign_in_manual(user)
     visit question_path(question)
 
+    #save_and_open_page
     within '.answers' do
+		  #TODO form already expanded
+			expect(page).to have_link 'Edit answer'
 
-	  #TODO form already expanded
-		expect(page).to have_link 'Edit answer'
+	    old_text = answer.content
+	    text = "That's simple: just be yourself!"
+	    # click_on 'Edit answer'
 
-    old_text = answer.content
-    text = "That's simple: just be yourself!"
-    # click_on 'Edit answer'
-
-    #TODO elements not found
+      #TODO elements not found
       fill_in 'Answer', with: text
 
       click_on 'Save'
