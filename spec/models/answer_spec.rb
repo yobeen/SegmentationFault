@@ -7,6 +7,9 @@ RSpec.describe Answer, type: :model do
   it { have_db_index(:created_at) }
   it { should belong_to(:user) }
 
+  it { should have_many(:attachments).dependent(:destroy) }
+  it { should accept_nested_attributes_for :attachments }
+
   describe '#accept' do
     let(:question) { create(:question, :with_answers) }
     let(:answer) { question.answers.last }

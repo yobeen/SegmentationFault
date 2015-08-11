@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150716225120) do
+ActiveRecord::Schema.define(version: 20150727133700) do
 
   create_table "answers", force: :cascade do |t|
     t.text     "content"
@@ -25,6 +25,17 @@ ActiveRecord::Schema.define(version: 20150716225120) do
   add_index "answers", ["question_id", "created_at"], name: "index_answers_on_question_id_and_created_at"
   add_index "answers", ["question_id"], name: "index_answers_on_question_id"
   add_index "answers", ["user_id"], name: "index_answers_on_user_id"
+
+  create_table "attachments", force: :cascade do |t|
+    t.string   "file"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "attachable_id"
+    t.string   "attachable_type"
+  end
+
+  add_index "attachments", ["attachable_id"], name: "index_attachments_on_attachable_id"
+  add_index "attachments", ["attachable_type"], name: "index_attachments_on_attachable_type"
 
   create_table "questions", force: :cascade do |t|
     t.string   "title"

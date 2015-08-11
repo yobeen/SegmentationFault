@@ -27,6 +27,10 @@ RSpec.describe QuestionsController, type: :controller do
     it 'renders show view' do 
       expect(response).to render_template :show
     end
+
+    it 'assigns new answer attachment' do
+      expect(assigns(:answer).attachments.first).to be_a_new(Attachment)
+    end
   end
 
   describe "GET #new" do
@@ -42,6 +46,10 @@ RSpec.describe QuestionsController, type: :controller do
     
     it 'renders new view' do 
       expect(response).to render_template :new
+    end
+
+    it 'assigns new attachment' do
+      expect(assigns(:question).attachments.first).to be_a_new(Attachment)
     end
 
     context 'user not logged in' do
@@ -146,4 +154,45 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+
+	describe 'PATCH #update' do
+		let(:user) { create(:user, :with_questions) }
+		let(:question) { user.questions.last }
+		let(:someone_else) { create(:user) }
+
+		before do
+			sign_in(user)
+		end
+
+		context 'when current user is author' do
+			before do
+				patch :update, id: question.id, question: { title: "new title", content: "new content" }, format: :js
+			end
+
+			it 'saves question attributes' do
+				question.reload
+
+				expect(question.title).to eq "new title"
+				expect(question.content).to eq "new content"
+			end
+
+			it 'renders update template' do
+				expect(response).to render_template :update
+			end
+		end
+
+		context 'when someone else is author' do
+			before do
+				question.update(user: someone_else)
+				patch :update, id: question.id, question: { title: "new title", content: "new content" }, format: :js
+			end
+
+			it 'does not save attributes' do
+				question.reload
+
+				expect(question.title).to_not eq "new title"
+				expect(question.content).to_not eq "new content"
+			end
+		end
+	end
 end

@@ -4,6 +4,10 @@
       tbody
       tr
         td = answer.content
+        td
+          ul
+            - answer.attachments.each do |a|
+              li= link_to a.file.identifier, a.file.url
       tr
         td = answer.created_at
         td
@@ -27,3 +31,8 @@
               = f.text_area :content, :cols => "50", :rows => "10"
             .actions
               = f.submit 'Save'
+            .attachments
+              = f.fields_for :attachments do |field|
+                = render 'attachment_fields', f: field
+              .links
+                = link_to_add_association "Attach another file", f, :attachments

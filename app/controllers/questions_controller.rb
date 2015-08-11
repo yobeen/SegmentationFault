@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :destroy]
+  before_action :authenticate_user!, only: [:new, :create, :destroy, :update]
   before_action :set_question, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -8,10 +8,12 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = Answer.new
+    @answer.attachments.build
   end
 
   def new
     @question = Question.new
+    @question.attachments.build
   end
 
   def create
@@ -31,6 +33,12 @@ class QuestionsController < ApplicationController
     end
     redirect_to questions_path
   end
+
+  def update
+    if @question.user_id == current_user.id
+      @question.update(question_params)
+    end
+  end
   
   private
    
@@ -39,6 +47,6 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :content)
+    params.require(:question).permit(:title, :content, attachments_attributes: [:id, :file, :_destroy])
   end
 end

@@ -26,8 +26,12 @@ group :development, :test do
   
   gem 'rspec-rails',         '3.3.2'
   gem 'database_cleaner'
-  #gem 'selenium-webdriver'
-	gem 'capybara-webkit'
+  gem 'selenium-webdriver'
+	#gem 'capybara-webkit'
+
+  gem 'carrierwave'
+  gem 'cocoon'
+  gem 'remotipart'
 end
 
 group :test do
