@@ -1,38 +1,43 @@
 -if answer.persisted?
-  div id="answer_#{answer.id}" class=('accepted' if answer.accepted?)
-    table
-      tbody
-      tr
-        td = answer.content
-        td
-          ul
-            - answer.attachments.each do |a|
-              li= link_to a.file.identifier, a.file.url
-      tr
-        td = answer.created_at
-        td
-          - if user_signed_in? && current_user.id == answer.user_id
-            = link_to 'Delete answer', [answer.question, answer], remote: true, method: :delete
-            p
-            = link_to 'Edit answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
-            p
-          - if user_signed_in? && current_user.id == answer.question.user_id
-            - if answer.accepted?
-              = link_to 'Accept answer', accept_question_answer_url(answer.question, answer),
-                        remote: true, method: :patch, class: 'accept-btn hide'
-            - else
-              = link_to 'Accept answer', accept_question_answer_url(answer.question, answer),
-                        remote: true, method: :patch, class: 'accept-btn'
+  div.panel.panel-primary
+    div id="answer_#{answer.id}" class=('accepted' if answer.accepted?)
+      div.panel-heading
+        = answer.user.name
+      div.panel-body
+        table
+          tbody
+          tr
+            td = answer.content
+            td
+              ul
+                /-debugger
+                - answer.attachments.each do |a|
+                  li= link_to a.file.identifier, a.file.url
+          tr
+            td = answer.created_at
+            td
+              - if user_signed_in? && current_user.id == answer.user_id
+                = link_to 'Delete answer', [answer.question, answer], remote: true, method: :delete
+                p
+                = link_to 'Edit answer', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+                p
+              - if user_signed_in? && current_user.id == answer.question.user_id
+                - if answer.accepted?
+                  = link_to 'Accept answer', accept_question_answer_url(answer.question, answer),
+                            remote: true, method: :patch, class: 'accept-btn hide'
+                - else
+                  = link_to 'Accept answer', accept_question_answer_url(answer.question, answer),
+                            remote: true, method: :patch, class: 'accept-btn'
 
-        td
-          = form_for [answer.question, answer], remote: true, html: { id: "edit-answer-#{answer.id}"} do |f|
-            .field
-              = f.label :content, 'Answer'
-              = f.text_area :content, :cols => "50", :rows => "10"
-            .actions
-              = f.submit 'Save'
-            .attachments
-              = f.fields_for :attachments do |field|
-                = render 'attachment_fields', f: field
-              .links
-                = link_to_add_association "Attach another file", f, :attachments
+            td
+              = form_for [answer.question, answer], remote: true, html: { id: "edit-answer-#{answer.id}"} do |f|
+                .field
+                  = f.label :content, 'Answer'
+                  = f.text_area :content, :cols => "50", :rows => "10"
+                .actions
+                  = f.submit 'Save'
+                .attachments
+                  = f.fields_for :attachments do |field|
+                    = render 'attachment_fields', f: field
+                  .links
+                    = link_to_add_association "Attach another file", f, :attachments
