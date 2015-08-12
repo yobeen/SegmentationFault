@@ -16,6 +16,7 @@ gem 'sprockets-rails'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-bootstrap'
+  gem 'rails-assets-startbootstrap-sb-admin-2'
 end
 
 
