@@ -9,7 +9,8 @@ feature 'Accept answer', %q{
   given!(:user) { create(:user, :with_questions) }
   given!(:someone_else) { create(:user, :with_questions) }
   given(:question) { user.questions.last}
-  given!(:answer) { create(:answer, question: question) }
+  given!(:answer) { create(:answer, question: question, user: user) }
+
   scenario 'User accepts answer to his question', js: true do
     sign_in_manual(user)
     visit question_path(question)
@@ -24,12 +25,13 @@ feature 'Accept answer', %q{
     expect(page).to have_selector(".answers > :first-child", text: answer.content)
 	end
 
-  scenario 'Author accepts another answer', js: true do
+  scenario 'User accepts another answer', js: true do
     sign_in_manual(user)
     another_answer = question.answers.create(attributes_for(:answer))
 		another_answer.update(accepted: true)
-    visit question_path(question)
+    another_answer.update(user: someone_else)
 
+    visit question_path(question)
     expect(page).to have_selector('.accepted')
     within("#answer_#{answer.id}") do
       click_on 'Accept answer'
