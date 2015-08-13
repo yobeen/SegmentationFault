@@ -19,7 +19,6 @@ feature 'Attach files to answer', %q{
     attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
 
     click_link 'Attach another file'
-		save_and_open_page
     within '.new_answer .nested-fields:not(:first-child)' do
       attach_file 'File', "#{Rails.root}/spec/rails_helper.rb"
     end

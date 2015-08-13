@@ -10,7 +10,7 @@ p
 p
 - if user_signed_in?
   p
-  = form_for [@question, @answer], remote: true, model_object: @answer.attachments do |f|
+  = form_for [@question, @answer], remote: true do |f|
     = render 'shared/error_messages', object: f.object
     .field
       = f.label :content
