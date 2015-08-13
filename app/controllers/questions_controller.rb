@@ -18,6 +18,12 @@ class QuestionsController < ApplicationController
 
   def create
     @question = current_user.questions.build(question_params)
+
+    #TODO crutch
+    @question.attachments.map do |a|
+
+    end
+
     if @question.save
       flash[:success] = "Question created successfully"
       redirect_to @question

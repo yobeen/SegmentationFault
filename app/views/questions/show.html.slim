@@ -1,30 +1,23 @@
 h1 Viewing question
 
 p
-= @question.title
-p
-= @question.content
-p.attachments Attachments:
-ul
-  - @question.attachments.each do |a|
-    li = link_to a.file.identifier, a.file.url
+  .question
+    = render @question
+
 p
   .answers
-    == render @question.answers
-p
-- if user_signed_in? && current_user.id == @question.user.id
-  = link_to 'Delete this question', @question, method: :delete
+    = render @question.answers
 p
 - if user_signed_in?
   p
-  = form_for [@question, @answer], remote: true do |f|
+  = form_for [@question, @answer], remote: true, model_object: @answer.attachments do |f|
     = render 'shared/error_messages', object: f.object
     .field
       = f.label :content
       .answer-errors-header
       .answer-errors
       = f.text_area :content, :cols => "50", :rows => "10"
-    p
+    p.
       = f.fields_for :attachments do |field|
         = render 'attachment_fields', f: field
       p.links

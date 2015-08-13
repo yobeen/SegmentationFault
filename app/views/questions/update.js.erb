@@ -1,1 +1,5 @@
-$('.question').html('<%= j render @question %>');
+<% if remotipart_submitted? %>
+  $('.question').html('<%= j "#{render @question}" %>');
+<% else %>
+  $('.question').html('<%= j render @question %>');
+<% end %>

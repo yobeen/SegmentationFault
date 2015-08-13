@@ -17,7 +17,7 @@ feature 'Deleting question', %q{
 
   scenario 'User deletes his own question' do
     visit question_path(@user.questions.last)
-    click_on 'Delete this question'
+    click_on 'Delete question'
 
     expect(current_path).to eq questions_path
     expect(page).to have_content "Question deleted successfully"

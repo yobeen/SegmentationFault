@@ -6,7 +6,11 @@ feature 'Checking question page', %q{
   is able to open question page
 } do
 
-  given!(:questions) { create_list(:question, 2, :with_answers) }
+
+  given!(:user) { create(:user, :with_questions) }
+  given(:questions) { user.questions }
+  given(:question) { user.questions.last}
+  given!(:answers) { create_list(:answer, 2, question: question, user: user) }
 
   scenario 'Guest views questions_list' do
     visit root_path
@@ -20,10 +24,10 @@ feature 'Checking question page', %q{
   scenario 'Guest opens question page' do
 
     visit root_path
-    find(:linkhref, question_path(questions[0])).click
+    find(:linkhref, question_path(question)).click
 
-    expect(current_path).to eq question_path(questions[0])
-    questions[0].answers.each do |answer|
+    expect(current_path).to eq question_path(question)
+    question.answers.each do |answer|
       expect(page).to have_content answer.content
     end
   end

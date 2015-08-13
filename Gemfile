@@ -16,7 +16,7 @@ gem 'sprockets-rails'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-bootstrap'
-  gem 'rails-assets-startbootstrap-sb-admin-2'
+ # gem 'rails-assets-startbootstrap-sb-admin-2'
 end
 
 
@@ -33,11 +33,13 @@ group :development, :test do
   gem 'rspec-rails',         '3.3.2'
   gem 'database_cleaner'
   gem 'selenium-webdriver'
-	#gem 'capybara-webkit'
+	gem 'capybara-webkit'
 
   gem 'carrierwave'
   gem 'cocoon'
   gem 'remotipart'
+
+  gem "intellij-coffee-script-debugger", :git => "git://github.com/JetBrains/intellij-coffee-script-debugger.git"
 end
 
 group :test do

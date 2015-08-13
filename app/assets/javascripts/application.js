@@ -16,5 +16,4 @@
 //= require cocoon
 //= require turbolinks
 //= require bootstrap
-//= require startbootstrap-sb-admin-2
 //= require_tree .

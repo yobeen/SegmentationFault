@@ -7,6 +7,13 @@ class AnswersController < ApplicationController
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
 
+    #TODO crutch
+    @answer.attachments.map do |a|
+      if a.file.file == nil
+        @answer.attachments.delete(a)
+      end
+    end
+
     if !@answer.save
       flash[:error] = "Could not create answer"
     end
