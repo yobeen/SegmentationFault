@@ -194,5 +194,90 @@ RSpec.describe QuestionsController, type: :controller do
 				expect(question.content).to_not eq "new content"
 			end
 		end
-	end
+  end
+
+  describe 'PATCH #upvote' do
+    let(:user) { create(:user) }
+    let(:question) { create(:question) }
+    let(:upvote) { patch :upvote, id: question.id, format: :json }
+
+    before do
+      sign_in user
+    end
+
+    it 'increases rating' do
+      expect{upvote}.to change{question.rating}.by 1
+    end
+
+    it 'renders vote template' do
+      upvote
+      expect(response).to render_template :vote
+    end
+
+    context 'when user is not logged in' do
+      before do
+        sign_out user
+      end
+
+      it 'does not change rating' do
+        expect{upvote}.to_not change{question.rating}
+      end
+    end
+  end
+
+  describe 'PATCH #downvote' do
+    let(:user) { create(:user) }
+    let(:question) { create(:question) }
+    let(:downvote) { patch :downvote, id: question.id, format: :json }
+
+    before do
+      sign_in user
+    end
+
+    it 'decreases rating' do
+      expect{downvote}.to change{question.rating}.by -1
+    end
+
+    it 'renders vote template' do
+      downvote
+      expect(response).to render_template :vote
+    end
+
+    context 'when user is not logged in' do
+      before do
+        sign_out user
+      end
+
+      it 'does not change rating' do
+        expect{downvote}.to_not change{question.rating}
+      end
+    end
+  end
+
+  describe 'PATCH #unvote' do
+    let(:user) { create(:user) }
+    let(:question) { create(:question) }
+    let(:unvote) { patch :unvote, id: question.id, format: :json }
+
+    before do
+      sign_in user
+      question.upvote_by user
+    end
+
+    it 'undoes users vote' do
+      unvote
+      expect(user.voted_for? question).to be_falsey
+    end
+
+    context 'when user is not logged in' do
+      before do
+        sign_out user
+      end
+
+      it 'does not change vote status' do
+        unvote
+        expect(user.voted_for? question).to be_truthy
+      end
+    end
+  end
 end

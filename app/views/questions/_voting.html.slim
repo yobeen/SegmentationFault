@@ -1,0 +1,14 @@
+-voting_allowed = user_signed_in? && current_user.id != question.user_id
+-alrdy_voted = user_signed_in? && (current_user.voted_for? question)
+
+.rating
+  = question.rating
+.vote-up class=('hide' unless voting_allowed && !alrdy_voted )
+  = link_to upvote_question_path(question), remote: true, method: :patch do
+    |Upvote
+.vote-down class=('hide' unless voting_allowed && !alrdy_voted )
+  = link_to downvote_question_path(question), remote: true, method: :patch do
+    |Downvote
+.vote-recall class=('hide' unless voting_allowed && alrdy_voted )
+  = link_to unvote_question_path(question), remote: true, method: :patch do
+    |Unvote

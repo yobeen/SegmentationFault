@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :destroy, :update]
-  before_action :set_question, only: [:show, :edit, :update, :destroy]
+  before_action :set_question, only: [:show, :edit, :update, :destroy, :upvote, :downvote, :unvote]
 
   def index
     @questions = Question.all
@@ -18,11 +18,6 @@ class QuestionsController < ApplicationController
 
   def create
     @question = current_user.questions.build(question_params)
-
-    #TODO crutch
-    @question.attachments.map do |a|
-
-    end
 
     if @question.save
       flash[:success] = "Question created successfully"
@@ -45,7 +40,28 @@ class QuestionsController < ApplicationController
       @question.update(question_params)
     end
   end
-  
+
+  def upvote
+    @question.upvote_by current_user
+    respond_to do |format|
+      format.json { render 'vote' }
+    end
+  end
+
+  def downvote
+    @question.downvote_by current_user
+    respond_to do |format|
+      format.json { render 'vote' }
+    end
+  end
+
+  def unvote
+    @question.unvote_by current_user
+    respond_to do |format|
+      format.json { render 'vote' }
+    end
+  end
+
   private
    
   def set_question

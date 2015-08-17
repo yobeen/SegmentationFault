@@ -1,18 +1,11 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_answer, only: [:update, :destroy, :accept]
+  before_action :set_answer, only: [:update, :destroy, :accept, :upvote, :downvote, :unvote]
   before_action :set_question
 
   def create
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
-
-    #TODO crutch
-    @answer.attachments.map do |a|
-      if a.file.file == nil
-        @answer.attachments.delete(a)
-      end
-    end
 
     if !@answer.save
       flash[:error] = "Could not create answer"
@@ -38,7 +31,28 @@ class AnswersController < ApplicationController
 		  render nothing: true
 	  end
   end
-  
+
+  def upvote
+    @answer.upvote_by current_user
+    respond_to do |format|
+      format.json { render 'vote' }
+    end
+  end
+
+  def downvote
+    @answer.downvote_by current_user
+    respond_to do |format|
+      format.json { render 'vote' }
+    end
+  end
+
+  def unvote
+    @answer.unvote_by current_user
+    respond_to do |format|
+      format.json { render 'vote' }
+    end
+  end
+
   private
    
   def set_answer

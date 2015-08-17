@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 ruby '2.2.1'
 gem 'rails',                '4.2.1'
 gem 'bcrypt',               '3.1.7'
+gem 'sass'
 gem 'sass-rails',           '5.0.3'
 gem 'uglifier',             '2.5.3'
 gem 'coffee-rails',         '4.1.0'
@@ -13,6 +14,8 @@ gem 'sdoc',                 '0.4.0', group: :doc
 gem 'slim-rails',            '3.0.1'
 gem 'devise',                '3.5.1'
 gem 'sprockets-rails'
+
+gem 'acts_as_votable'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-bootstrap'

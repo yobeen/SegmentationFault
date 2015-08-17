@@ -46,6 +46,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    acts_as_votable (0.10.0)
     addressable (2.3.8)
     ansi (1.5.0)
     arel (6.0.3)
@@ -310,6 +311,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  acts_as_votable
   awesome_print (= 1.6.1)
   bcrypt (= 3.1.7)
   better_errors (= 2.1.1)
@@ -338,6 +340,7 @@ DEPENDENCIES
   remotipart
   rspec (= 3.3.0)
   rspec-rails (= 3.3.2)
+  sass
   sass-rails (= 5.0.3)
   sdoc (= 0.4.0)
   selenium-webdriver

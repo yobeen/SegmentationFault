@@ -156,4 +156,91 @@ RSpec.describe AnswersController, type: :controller do
 
     end
   end
+
+  describe 'PATCH #upvote' do
+    let(:answer) { create(:answer, question_id: question.id) }
+    let(:question) { create(:question) }
+    let(:upvote) { patch :upvote, question_id: question.id, id: answer.id, format: :json }
+
+    before do
+      sign_in user
+    end
+
+    it 'increases rating' do
+      expect{upvote}.to change{answer.rating}.by 1
+    end
+
+    it 'renders vote template' do
+      upvote
+      expect(response).to render_template :vote
+    end
+
+    context 'when user is not logged in' do
+      before do
+        sign_out user
+      end
+
+      it 'does not change rating' do
+        expect{upvote}.to_not change{answer.rating}
+      end
+    end
+  end
+
+  describe 'PATCH #downvote' do
+    let(:user) { create(:user) }
+    let(:question) { create(:question) }
+    let(:answer) { create(:answer, question_id: question.id) }
+    let(:downvote) { patch :downvote, question_id: question.id, id: answer.id, format: :json }
+
+    before do
+      sign_in user
+    end
+
+    it 'decreases rating' do
+      expect{downvote}.to change{answer.rating}.by -1
+    end
+
+    it 'renders vote template' do
+      downvote
+      expect(response).to render_template :vote
+    end
+
+    context 'when user is not logged in' do
+      before do
+        sign_out user
+      end
+
+      it 'does not change rating' do
+        expect{downvote}.to_not change{answer.rating}
+      end
+    end
+  end
+
+  describe 'PATCH #unvote' do
+    let(:user) { create(:user) }
+    let(:question) { create(:question) }
+    let(:answer) { create(:answer, question_id: question.id) }
+    let(:unvote) { patch :unvote, question_id: question.id, id: answer.id, format: :json }
+
+    before do
+      sign_in user
+      answer.upvote_by user
+    end
+
+    it 'undoes users vote' do
+      unvote
+      expect(user.voted_for? answer).to be_falsey
+    end
+
+    context 'when user is not logged in' do
+      before do
+        sign_out user
+      end
+
+      it 'does not change vote status' do
+        unvote
+        expect(user.voted_for? answer).to be_truthy
+      end
+    end
+  end
 end

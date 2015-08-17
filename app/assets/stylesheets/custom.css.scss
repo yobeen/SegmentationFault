@@ -20,11 +20,15 @@ body {
 .edit-question-form {
   display:none;
 }
-//
-//.btn-discard-question {
-//  visibility: hidden;
-//}
-//
-//.edit-question-form .btn-discard-question {
-//  visibility: visible;
-//}
+
+.bs-callout {
+  padding: 20px;
+  margin: 20px 0;
+  border: 1px solid #eee;
+  border-left-width: 5px;
+  border-radius: 3px;
+}
+
+.bs-callout-danger {
+  border-left-color: green;
+}

@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
   has_many :questions, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :answers, dependent: :destroy
 
+  acts_as_voter
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
