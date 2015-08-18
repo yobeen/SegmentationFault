@@ -33,21 +33,27 @@ class AnswersController < ApplicationController
   end
 
   def upvote
-    @answer.upvote_by current_user
+    if current_user != @answer.user
+      @answer.upvote_by current_user
+    end
     respond_to do |format|
       format.json { render 'vote' }
     end
   end
 
   def downvote
-    @answer.downvote_by current_user
+    if current_user != @answer.user
+      @answer.downvote_by current_user
+    end
     respond_to do |format|
       format.json { render 'vote' }
     end
   end
 
   def unvote
-    @answer.unvote_by current_user
+    if current_user != @answer.user
+      @answer.unvote_by current_user
+    end
     respond_to do |format|
       format.json { render 'vote' }
     end
