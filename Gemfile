@@ -42,7 +42,7 @@ group :development, :test do
   gem 'cocoon'
   gem 'remotipart'
 
-  gem "intellij-coffee-script-debugger", :git => "git://github.com/JetBrains/intellij-coffee-script-debugger.git"
+ # gem "intellij-coffee-script-debugger", :git => "git://github.com/JetBrains/intellij-coffee-script-debugger.git"
 end
 
 group :test do

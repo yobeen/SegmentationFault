@@ -5,7 +5,6 @@ feature 'Attach files to answer', %q{
   user
   is able to attach files to his answer
 } do
-
   given(:user) { create(:user, :with_questions) }
 
   background do
@@ -18,14 +17,15 @@ feature 'Attach files to answer', %q{
     fill_in 'Content', with: text
     attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
 
-    click_link 'Attach another file'
-    within '.new_answer .nested-fields:not(:first-child)' do
-      attach_file 'File', "#{Rails.root}/spec/rails_helper.rb"
-    end
+   click_link 'Attach another file'
+   within '.new_answer .nested-fields:not(:first-child)' do
+     attach_file 'File', "#{Rails.root}/spec/rails_helper.rb"
+   end
 
-    click_on 'Create answer'
+    click_on 'Create Answer'
 
     within('.answers') do
+      expect(page).to have_content text
       expect(page).to have_link 'spec_helper.rb'
       expect(page).to have_link 'rails_helper.rb'
     end

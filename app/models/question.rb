@@ -8,7 +8,8 @@ class Question < ActiveRecord::Base
   validates :title, presence: true, length: { maximum: 250 }
   validates :content, presence: true, length: { maximum: 15000 }
 
-  accepts_nested_attributes_for :attachments
+  accepts_nested_attributes_for :attachments, reject_if: proc { |attributes| attributes[:file].blank? },
+                                allow_destroy: true
 
   def rating
     get_upvotes.size - get_downvotes.size
