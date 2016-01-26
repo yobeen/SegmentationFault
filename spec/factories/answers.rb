@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :answer do
     sequence :content do |n|
-      "MyText_#{n}"
+      "MyAnswer_#{n}"
     end
   end
   

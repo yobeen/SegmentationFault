@@ -59,3 +59,6 @@ public/assets/**
 ## File-based project format:
 *.ipr
 *.iws
+
+#file uploads
+public/uploads

@@ -1,8 +1,15 @@
-= form_for @question do |f|
-  .field
+= form_for @question, remote: true do |f|
+  .field.form-group
     = f.label :title
-    = f.text_area :title
-  .field
-    = f.label :content
-    = f.text_area :content, :cols => "50", :rows => "10"
-  .actions = f.submit
+    = f.text_field :title, class: 'form-control'
+  .field.form-group
+    = f.label :content, 'Content'
+    = f.text_area :content, class: 'form-control'
+  .form-group
+    = f.fields_for :attachments do |field|
+      = render 'attachment_fields', f: field
+    p.links
+      = link_to_add_association "Attach another file", f, :attachments
+  .actions.form-group
+    = f.submit 'Save changes', class: 'btn btn-primary'
+    = f.button 'Discard', class: 'btn btn-warning btn-discard-question', type: 'button'

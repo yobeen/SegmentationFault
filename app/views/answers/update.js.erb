@@ -1,0 +1,20 @@
+<% if @answer.errors.present? %>
+  $('.answer-errors-header').html('Your answer could not be edited due to the following errors:');
+  <% @answer.errors.full_messages.each do |message| %>
+    $('.answer-errors').html('<%= j message %>');
+  <% end %>
+<% else %>
+  $('.answer-errors-header').html('');
+  $('.answer-errors').html('');
+    <% if remotipart_submitted? %>
+      $('#answer_' + <%= @answer.id %>).html('<%= j "#{render(@answer)}" %>')
+    <% else %>
+      $('#answer_' + <%= @answer.id %>).html('<%= j render(@answer) %>')
+    <% end %>
+  $('.edit-answer-link').click(function(e) {
+    e.preventDefault();
+    $(this).hide();
+    answer_id = $(this).data('answerId');
+    $('form#edit-answer-' + answer_id).show();
+  });
+<% end %>

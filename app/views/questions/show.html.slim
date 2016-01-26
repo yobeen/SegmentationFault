@@ -1,17 +1,26 @@
-h1 Viewing question
+h3 Viewing question
 
 p
-=@question.title
+  .question
+    = render @question
+
 p
-=@question.content
+  .answers
+    = render @question.answers
 p
-- @question.answers.each do |answer|
-  table
-    tbody
-    tr
-      td = answer.content
-    tr
-      td = answer.created_at
-    p
-p
-= link_to 'New Answer', new_question_answer_path(@question)
+- if user_signed_in?
+  p
+  = form_for [@question, @answer], remote: true do |f|
+    = render 'shared/error_messages', object: f.object
+    .field
+      = f.label :content
+      .answer-errors-header
+      .answer-errors
+      = f.text_area :content, :cols => "50", :rows => "10"
+    p.
+      = f.fields_for :attachments do |field|
+        = render 'attachment_fields', f: field
+      p.links
+        = link_to_add_association "Attach another file", f, :attachments
+    .actions
+      = f.submit 'Create Answer', class: 'btn btn-primary'

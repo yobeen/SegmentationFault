@@ -1,44 +1,64 @@
 class AnswersController < ApplicationController
-  before_action :set_answer, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
+  before_action :set_answer, only: [:update, :destroy, :accept, :upvote, :downvote, :unvote]
   before_action :set_question
 
-  def index
-    @answers = @question.answers
-  end
-
-  def show
-  end
-
-  def new
-    @answer = @question.answers.build
-  end
-
-  def edit
-  end
-  
   def create
     @answer = @question.answers.new(answer_params)
-    if @answer.save
-      redirect_to @answer.question
-    else 
-      render :new
+    @answer.user = current_user
+
+    if !@answer.save
+      flash[:error] = "Could not create answer"
     end
   end
-  
+
   def update
-    if @answer.update(answer_params)
-      redirect_to @answer.question  
-    else
-      render :edit
-    end
-    
+	  if current_user.id == @answer.user_id
+	    @answer.update(answer_params)
+	  end
   end
   
   def destroy
-    @answer.destroy
-    redirect_to @question
+    if current_user.id == @answer.user_id
+      @answer.destroy
+    end
   end
-  
+
+  def accept
+	  if current_user.id == @question.user_id
+		  @answer.accept
+	  else
+		  render nothing: true
+	  end
+  end
+
+  def upvote
+    if current_user != @answer.user
+      @answer.upvote_by current_user
+    end
+    respond_to do |format|
+      format.json { render 'vote' }
+    end
+  end
+
+  def downvote
+    if current_user != @answer.user
+      @answer.downvote_by current_user
+    end
+    respond_to do |format|
+      format.json { render 'vote' }
+    end
+  end
+
+  def unvote
+    if current_user != @answer.user
+      @answer.unvote_by current_user
+    end
+    respond_to do |format|
+      format.json { render 'vote' }
+    end
+  end
+
   private
    
   def set_answer
@@ -50,6 +70,6 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:content)
+    params.require(:answer).permit(:content, attachments_attributes: [:id, :file, :_destroy])
   end
 end

@@ -1,0 +1,28 @@
+div.bs-callout.bs-callout-danger
+  div.panel
+    div.panel-heading
+      .question-title
+        = question.title
+      .question-user-name
+        = question.user.name
+      .question-time
+        = time_tag question.created_at
+      .question-voting
+        == render 'questions/voting', question: question
+      div.panel-body
+        div
+          = question.content
+
+      div.panel-footer
+        ul
+          - question.attachments.each do |a|
+            -if a.file.file != nil
+              li = link_to a.file.identifier, a.file.url
+        div
+          - if user_signed_in? && current_user.id == question.user.id
+            = link_to 'Edit question', '', class: 'edit-question-link'
+            br
+            = link_to 'Delete question', question, method: :delete
+
+      div.edit-question-form
+          == render 'form'
