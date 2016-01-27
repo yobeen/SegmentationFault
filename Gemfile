@@ -17,10 +17,9 @@ gem 'sprockets-rails'
 
 gem 'acts_as_votable'
 
-source 'https://rails-assets.org' do
-  gem 'rails-assets-bootstrap'
- # gem 'rails-assets-startbootstrap-sb-admin-2'
-end
+gem 'bootstrap-sass',       '~> 3.2.0'
+gem 'autoprefixer-rails'          #adds the proper vendor prefixes to your CSS code when it is compiled
+
 
 
 group :development, :test do
