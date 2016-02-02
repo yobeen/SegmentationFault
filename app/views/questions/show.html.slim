@@ -13,7 +13,7 @@ p
   = form_for [@question, @answer], remote: true do |f|
     = render 'shared/error_messages', object: f.object
     .field
-      = f.label :content
+      = f.label :content, 'Your answer:'
       .answer-errors-header
       .answer-errors
       = f.text_area :content, :cols => "50", :rows => "10"

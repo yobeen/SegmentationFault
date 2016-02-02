@@ -13,7 +13,7 @@ feature 'Create answer', %q{
     sign_in_manual(user)
     visit question_path(someone_else.questions.last)
     text = "That's simple: just be yourself!"
-    fill_in 'Content', with: text
+    fill_in 'Your answer:', with: text
     click_on 'Create Answer'
 
     within '.answers' do

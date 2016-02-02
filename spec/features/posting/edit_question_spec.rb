@@ -18,7 +18,7 @@ feature 'Edit question', %q{
     expect(page).to have_link 'Edit question'
     click_link 'Edit question'
     within '.edit-question-form' do
-      fill_in 'Content', with: 'New text 1111111'
+      fill_in 'Your question:', with: 'New text 1111111'
     end
     click_on 'Save changes'
 

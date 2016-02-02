@@ -17,14 +17,14 @@ feature 'Checking question page', %q{
 
     expect(page).to have_content "Listing questions"
     questions.each do |question|
-      expect(page).to have_link "Show", href: question_path(question)
+      expect(page).to have_link "View details", href: question_path(question)
     end
   end
 
   scenario 'Guest opens question page' do
 
     visit root_path
-    find(:linkhref, question_path(question)).click
+    all(:linkhref, question_path(question)).first.click
 
     expect(current_path).to eq question_path(question)
     question.answers.each do |answer|

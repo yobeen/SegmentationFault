@@ -17,7 +17,7 @@ feature 'Delete files from question', %q{
 
     click_on 'New Question'
     fill_in 'Title', with: 'I have a question'
-    fill_in 'Content', with: 'Give me some answers'
+    fill_in 'Your question:', with: 'Give me some answers'
     attach_file 'File', "#{Rails.root}/spec/rails_helper.rb"
 
     click_on 'Create Question'

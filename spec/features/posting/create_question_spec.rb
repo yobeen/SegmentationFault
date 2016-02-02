@@ -14,7 +14,7 @@ feature 'Creating question', %q{
     visit root_path
     click_on 'New Question'
     fill_in 'Title', with: 'I have a question'
-    fill_in 'Content', with: 'Give me some answers'
+    fill_in 'Your question:', with: 'Give me some answers'
     click_on 'Create Question'
 
     expect(page).to have_content "Question created successfully"

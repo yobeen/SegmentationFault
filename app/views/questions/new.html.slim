@@ -5,7 +5,7 @@ h1 New question
     = f.label :title
     = f.text_field :title, class: 'form-control'
   .field.form-group
-    = f.label :content, 'Content'
+    = f.label :content, 'Your question:'
     = f.text_area :content, class: 'form-control'
   .form-group
     = f.fields_for :attachments do |field|

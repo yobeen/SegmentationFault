@@ -1,20 +1,24 @@
-h1 Listing questions
+div.jumbotron
+  div.container
+    div.col-md-8
+      h2 Segmentation Fault
+      p
+        |A community of zero programmers. Get out of here, stalker.
+    div.col-md-4
+      = image_tag "segfault-thumb.jpg"
 
-table
-  thead
-    tr
-      th Title
-      th Created at
-      th
-      th
-      th
+div.container
+  = link_to 'New Question', new_question_path, class: "btn btn-success btn-lg"
 
-  tbody
+div.container
+  div.col-md-8
+    h2 Listing questions
     - @questions.each do |question|
-      tr
-        td = question.title
-        td = question.created_at
-        td = link_to 'Show', question
-br
-
-= link_to 'New Question', new_question_path
+      div.question-row.row
+        div.col-md-7
+          h4
+            = link_to question.title, question
+          div
+            |Created at #{question.created_at} by #{question.user.name}
+        div.col-md-1.col-md-offset-2
+          = link_to "View details", question, class: "btn btn-primary btn-lg"
